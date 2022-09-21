@@ -3,69 +3,9 @@
 
 
 
-<record model="ir.ui.view" id="a_mano.view">
-    <field name="name">vista.a_mano</field>
-    <field name="model">stock.quant</field>
-    <field name="priority" eval="16"/>
-    <field name="arch" type="xml">
-        <tree editable="bottom" create="1" edit="1" import="0" js_class="singleton_list" sample="1">
-                <field name="id" invisible="1"/>
-                <field name="tracking" invisible="1"/>
-                <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('single_product', False)" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
-                <field name="location_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}"/>
-                <field name="lot_id" groups="stock.group_production_lot" attrs="{                             'readonly': ['|', ('id', '!=', False), ('tracking', 'not in', ['serial', 'lot'])],                             'required': [('tracking', '!=', 'none')]                        }" invisible="context.get('hide_lot', False)" context="{'default_product_id': product_id, 'default_company_id': company_id}"/>
-                <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}"/>
-                <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
-                <field name="quantity" string="On Hand Quantity" invisible="1"/>
-                <field name="inventory_quantity" string="On Hand Quantity" decoration-danger="inventory_quantity &lt; 0" readonly="0"/>
-                <field name="available_quantity" optional="show"/>
-                <field name="product_uom_id" groups="uom.group_uom"/>
-                <field name="company_id" groups="base.group_multi_company" optional="show"/>
-                
-                <field name="precio_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('single_product', False)" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
-                <field name="costo_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('single_product', False)" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
-                
-            
-            </tree>
-    </field>
-</record>
 
-<record model="ir.ui.view" id="a_mano.view_search">
-    <field name="name">vista.a_mano_search</field>
-    <field name="model">stock.quant</field>
-    <field name="priority" eval="16"/>
-    <field name="arch" type="xml">
-       
-        <search string="Quants">
-                <field name="product_id"/>
-                <field name="location_id"/>
-                <field name="package_id" groups="stock.group_tracking_lot"/>
-                <field name="lot_id" groups="stock.group_production_lot"/>
-                <field name="owner_id" groups="stock.group_tracking_owner"/>
-                <group expand="0" string="Filters">
-                    <filter name="internal_loc" string="Internal Locations" domain="[('location_id.usage','=', 'internal')]"/>
-                    <filter name="transit_loc" string="Transit Locations" domain="[('location_id.usage' ,'=', 'transit')]"/>
-                    <filter name="on_hand" string="On Hand" domain="[('on_hand', '=', True)]"/>
-                    <separator/>
-                    <filter name="negative" string="Negative Stock" domain="[('quantity', '&lt;', 0.0)]"/>
-                    <filter name="positive" string="Positive Stock" domain="[('quantity', '&gt;', 0.0)]"/>
-                    <filter name="reserved" string="Reservations" domain="[('reserved_quantity', '&gt;', 0.0)]"/>
-                    <separator/>
-                    <filter name="filter_in_date" date="in_date"/>
-                </group>
-                <group expand="0" string="Group by...">
-                    <filter string="Product" name="productgroup" context="{'group_by': 'product_id'}"/>
-                    <filter string="Location" name="locationgroup" domain="[]" context="{'group_by': 'location_id'}"/>
-                    <filter string="Owner" name="owner" context="{'group_by': 'owner_id'}" groups="stock.group_tracking_owner"/>
-                    <filter string="Lot/Serial Number" name="Lot_Serial_number" context="{'group_by': 'lot_id'}" groups="stock.group_production_lot"/>
-                    <filter string="Package" name="package" domain="[]" context="{'group_by': 'package_id'}" groups="stock.group_tracking_lot"/>
-                    <filter string="Company" name="company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
-               </group>
-            </search>
-        
-        
-    </field>
-</record>
+
+
 
 <record model="ir.actions.act_window" id="a_mano.action_window">
     <field name="name">a_mano</field>
